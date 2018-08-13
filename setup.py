@@ -8,7 +8,7 @@ if 'upload' in sys.argv or 'register' in sys.argv:
 
 setup(
     name='django-bootstrap-daterangepicker',
-    version='1.0.1',
+    version='1.0.2',
 
     description='A Django form field and widget wrapper for bootstrap-daterangepicker',
     long_description=long_description,

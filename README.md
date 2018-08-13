@@ -43,9 +43,9 @@ class DemoForm(forms.Form):
     # DateTime Range Fields
     datetime_range_normal = fields.DateTimeRangeField()
     datetime_range_with_format = fields.DateTimeRangeField(
-        input_formats=['%d/%m/%Y (%H:%M:%S)'],
+        input_formats=['%d/%m/%Y (%I:%M:%S)'],
         widget=widgets.DateTimeRangeWidget(
-            format='%d/%m/%Y (%H:%M:%S)'
+            format='%d/%m/%Y (%I:%M:%S)'
         )
     )
     datetime_range_clearable = fields.DateTimeRangeField(clearable=True)

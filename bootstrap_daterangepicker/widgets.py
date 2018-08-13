@@ -20,8 +20,8 @@ format_to_js = {
     '%B': 'MMMM',
     '%b': 'MMM',
     '%M': 'mm',
-    '%H': 'hh',
-    '%I': 'h',
+    '%H': 'HH',
+    '%I': 'hh',
     '%p': 'A',
     '%S': 'ss',
 }
