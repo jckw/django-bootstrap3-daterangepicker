@@ -77,9 +77,11 @@ class DateRangeWidget(forms.TextInput):
 
     def format_value(self, value):
         if isinstance(value, tuple):
-            return self._format_date_value(value[0]) + \
-                   self.separator + \
-                   self._format_date_value(value[1])
+            return (self._format_date_value(value[0]) +
+                    self.separator +
+                    self._format_date_value(value[1]))
+        elif value:
+            return self._format_date_value(value)
         else:
             return value
 
