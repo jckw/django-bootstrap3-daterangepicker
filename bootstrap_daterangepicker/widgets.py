@@ -8,6 +8,11 @@ from django import forms
 from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
+try:
+    from psycopg2._range import DateRange, DateTimeRange, DateTimeTZRange
+    psycopg2_DateTimeRanges = DateRange, DateTimeRange, DateTimeTZRange
+except ImportError:
+    psycopg2_DateTimeRanges = None
 
 __all__ = ['DatePickerWidget', 'DateRangeWidget', 'DateTimeRangeWidget', 'add_month', 'common_dates']
 
@@ -23,7 +28,7 @@ format_to_js = {
     '%I': 'hh',
     '%p': 'A',
     '%S': 'ss',
-    }
+}
 
 format_to_js_re = re.compile(r'(?<!\w)(' + '|'.join(format_to_js.keys()) + r')\b')
 
@@ -45,7 +50,7 @@ def common_dates(start_date=date.today()):
         ('Last month', (add_month(start_date.replace(day=1), -1), start_date.replace(day=1) - one_day)),
         ('3 months', (add_month(start_date, -3), start_date)),
         ('Year', (add_month(start_date, -12), start_date)),
-        ])
+    ])
 
 
 class DateRangeWidget(forms.TextInput):
@@ -80,6 +85,10 @@ class DateRangeWidget(forms.TextInput):
             return self._format_date_value(value[0]) + \
                    self.separator + \
                    self._format_date_value(value[1])
+        elif psycopg2_DateTimeRanges and isinstance(value, psycopg2_DateTimeRanges):
+            return self._format_date_value(value.lower) + \
+                   self.separator + \
+                   self._format_date_value(value.upper)
         else:
             return value
 
@@ -90,8 +99,8 @@ class DateRangeWidget(forms.TextInput):
         default_picker_options = {
             'locale': {
                 'format': date_format,
-                }
             }
+        }
 
         if self.clearable():
             default_picker_options['autoUpdateInput'] = False
@@ -114,10 +123,10 @@ class DateRangeWidget(forms.TextInput):
             'options': {
                 'json': mark_safe(json.dumps(picker_options)),
                 'python': picker_options,
-                },
+            },
             'clearable': self.clearable(),
             'separator': self.separator,
-            }
+        }
 
         return context
 
