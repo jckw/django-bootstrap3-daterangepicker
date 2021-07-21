@@ -9,7 +9,14 @@ from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-__all__ = ['DatePickerWidget', 'DateRangeWidget', 'DateTimeRangeWidget', 'add_month', 'common_dates']
+__all__ = [
+    'DatePickerWidget',
+    'DateTimePickerWidget',
+    'DateRangeWidget',
+    'DateTimeRangeWidget',
+    'add_month',
+    'common_dates'
+]
 
 format_to_js = {
     '%m': 'MM',
@@ -138,3 +145,13 @@ class DatePickerWidget(DateRangeWidget):
 
         if 'singleDatePicker' not in self.picker_options:
             self.picker_options['singleDatePicker'] = True
+
+
+class DateTimePickerWidget(DateRangeWidget):
+    format_key = 'DATETIME_INPUT_FORMATS'
+    def __init__(self, *args, **kwargs):
+        super(DateTimePickerWidget  , self).__init__(*args, **kwargs)
+
+        if 'singleDatePicker' not in self.picker_options:
+            self.picker_options['singleDatePicker'] = True
+            self.picker_options['timePicker'] = True

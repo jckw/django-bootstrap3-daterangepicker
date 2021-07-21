@@ -7,7 +7,8 @@ from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 import six
 
-from .widgets import DateRangeWidget, DateTimeRangeWidget, DatePickerWidget
+from .widgets import DateRangeWidget, DateTimeRangeWidget, DatePickerWidget, \
+    DateTimePickerWidget
 
 
 class DateRangeMixin(object):
@@ -77,6 +78,14 @@ class DateTimeRangeField(DateRangeMixin, forms.DateTimeField):
 
 class DateField(forms.DateField):
     widget = DatePickerWidget
+
+    def __init__(self, clearable=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.widget.clearable_override = clearable
+
+
+class DateTimeField(forms.DateTimeField):
+    widget = DateTimePickerWidget
 
     def __init__(self, clearable=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
